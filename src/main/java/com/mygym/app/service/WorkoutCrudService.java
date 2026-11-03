@@ -13,9 +13,6 @@ import org.bson.Document;
 import com.mygym.app.models.ExcerciseList;
 import com.mygym.app.models.TargetMuscleWrapper;
 
-/**
- * Service managing muscle groups, available exercise lists, and dynamic array updates in MongoDB.
- */
 @Service
 public class WorkoutCrudService {
 
@@ -29,7 +26,7 @@ public class WorkoutCrudService {
     public void init() {
         try {
             ExcerciseList doc = fetchDocument();
-            System.out.println("Workout database connected successfully. Target config ID verified: " + doc.getAbsExercises());
+            System.out.println("Workout database connected successfully. Target config ID verified: " + doc.absExercises());
         } catch (Exception e) {
             throw new RuntimeException("Startup Error: Could not find workout configuration where id = " + TARGET_ID, e);
         }
@@ -54,14 +51,14 @@ public class WorkoutCrudService {
     private TargetMuscleWrapper getExercisesForField(String dbFieldName) {
         ExcerciseList doc = fetchDocument();
         switch (dbFieldName) {
-            case "Chest": return new TargetMuscleWrapper(doc.getChestExercises());
-            case "Shoulder": return new TargetMuscleWrapper(doc.getShoulderExercises());
-            case "Back": return new TargetMuscleWrapper(doc.getBackExercises());
-            case "Biceps": return new TargetMuscleWrapper(doc.getBicepsExercises());
-            case "Triceps": return new TargetMuscleWrapper(doc.getTricepsExercises());
-            case "Legs": return new TargetMuscleWrapper(doc.getLegsExercises());
-            case "Abs": return new TargetMuscleWrapper(doc.getAbsExercises());
-            case "Cardio": return new TargetMuscleWrapper(doc.getCardioExercises());
+            case "Chest": return new TargetMuscleWrapper(doc.chestExercises());
+            case "Shoulder": return new TargetMuscleWrapper(doc.shoulderExercises());
+            case "Back": return new TargetMuscleWrapper(doc.backExercises());
+            case "Biceps": return new TargetMuscleWrapper(doc.bicepsExercises());
+            case "Triceps": return new TargetMuscleWrapper(doc.tricepsExercises());
+            case "Legs": return new TargetMuscleWrapper(doc.legsExercises());
+            case "Abs": return new TargetMuscleWrapper(doc.absExercises());
+            case "Cardio": return new TargetMuscleWrapper(doc.cardioExercises());
             default: throw new IllegalArgumentException("Unknown muscle field: " + dbFieldName);
         }
     }

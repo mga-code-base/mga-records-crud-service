@@ -28,31 +28,28 @@ class MyRecordCrudControllerTest {
     @Test
     @DisplayName("Should invoke service create record and return saved entity")
     void testCreate_Success() {
-        MyRecord record = new MyRecord();
-        record.setMemberId("M-101");
-        record.setTargetMuscle("Chest");
+        MyRecord record = new MyRecord(null, "M-101", null, "Chest", null, null);
 
         when(service.createRecord(any(MyRecord.class))).thenReturn(record);
 
         MyRecord result = controller.create(record);
 
         assertNotNull(result);
-        assertEquals("M-101", result.getMemberId());
+        assertEquals("M-101", result.memberId());
         verify(service, times(1)).createRecord(record);
     }
 
     @Test
     @DisplayName("Should read record by ID via service layer")
     void testReadById_Success() {
-        MyRecord record = new MyRecord();
-        record.setMemberId("M-101");
+        MyRecord record = new MyRecord(null, "M-101", null, null, null, null);
 
         when(service.getRecordById("M-101")).thenReturn(record);
 
         MyRecord result = controller.readById("M-101");
 
         assertNotNull(result);
-        assertEquals("M-101", result.getMemberId());
+        assertEquals("M-101", result.memberId());
         verify(service, times(1)).getRecordById("M-101");
     }
 
@@ -70,7 +67,7 @@ class MyRecordCrudControllerTest {
     @Test
     @DisplayName("Should delegate previous records search to service layer")
     void testGetPreviousRecords_Success() {
-        MyRecordsWrapper wrapper = new MyRecordsWrapper(List.of(new MyRecord()));
+        MyRecordsWrapper wrapper = new MyRecordsWrapper(List.of(new MyRecord(null, null, null, null, null, null)));
         when(service.getPreviousRecords("M-101", "Chest", "Bench Press")).thenReturn(wrapper);
 
         MyRecordsWrapper result = controller.getPreviousRecords("M-101", "Chest", "Bench Press");
@@ -82,7 +79,7 @@ class MyRecordCrudControllerTest {
     @Test
     @DisplayName("Should delegate progress records search to service layer")
     void testGetProgressRecords_Success() {
-        MyRecordsWrapper wrapper = new MyRecordsWrapper(List.of(new MyRecord()));
+        MyRecordsWrapper wrapper = new MyRecordsWrapper(List.of(new MyRecord(null, null, null, null, null, null)));
         when(service.getProgressRecords("M-101")).thenReturn(wrapper);
 
         MyRecordsWrapper result = controller.getPreviousRecords("M-101");

@@ -2,11 +2,12 @@ package com.mygym.app.service;
 
 import com.mygym.app.models.MyRecord;
 import com.mygym.app.models.MyRecordsWrapper;
-import com.mygym.app.models.Set;
+import com.mygym.app.models.WorkoutSet;
 import com.mygym.app.repository.MyRecordRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,10 +37,7 @@ class MyRecordCrudServiceTest {
     @Test
     @DisplayName("Should create new record when no record exists for today")
     void testCreateRecord_NewRecord_Success() {
-        MyRecord record = new MyRecord();
-        record.setMemberId("M-101");
-        record.setTargetMuscle("Chest");
-        record.setExerciseName("Bench Press");
+        MyRecord record = new MyRecord(null, "M-101", "Bench Press", "Chest", null, null);
 
         when(repository.findByMemberIdAndTargetMuscleAndExerciseNameAndDate(
                 eq("M-101"), eq("Chest"), eq("Bench Press"), eq(LocalDate.now().format(formatter))
@@ -50,22 +48,16 @@ class MyRecordCrudServiceTest {
         MyRecord created = myRecordCrudService.createRecord(record);
 
         assertNotNull(created);
-        assertEquals("M-101", created.getMemberId());
+        assertEquals("M-101", created.memberId());
         verify(repository, times(1)).save(record);
     }
 
     @Test
     @DisplayName("Should append sets to existing record when record exists for today")
     void testCreateRecord_ExistingRecord_AppendsSets() {
-        MyRecord existingRecord = new MyRecord();
-        existingRecord.setMemberId("M-101");
-        existingRecord.setSets(new ArrayList<>());
+        MyRecord existingRecord = new MyRecord(null, "M-101", null, null, new ArrayList<>(), null);
 
-        MyRecord newRecord = new MyRecord();
-        newRecord.setMemberId("M-101");
-        newRecord.setTargetMuscle("Chest");
-        newRecord.setExerciseName("Bench Press");
-        newRecord.setSets(List.of(new Set()));
+        MyRecord newRecord = new MyRecord(null, "M-101", "Bench Press", "Chest", List.of(new WorkoutSet(10f, "KG", 8, null)), null);
 
         when(repository.findByMemberIdAndTargetMuscleAndExerciseNameAndDate(
                 eq("M-101"), eq("Chest"), eq("Bench Press"), eq(LocalDate.now().format(formatter))
@@ -76,22 +68,22 @@ class MyRecordCrudServiceTest {
         MyRecord updated = myRecordCrudService.createRecord(newRecord);
 
         assertNotNull(updated);
-        assertEquals(1, existingRecord.getSets().size());
-        verify(repository, times(1)).save(existingRecord);
+        ArgumentCaptor<MyRecord> saved = ArgumentCaptor.forClass(MyRecord.class);
+        verify(repository, times(1)).save(saved.capture());
+        assertEquals(1, saved.getValue().sets().size());
     }
 
     @Test
     @DisplayName("Should fetch record by member ID")
     void testGetRecordById_Success() {
-        MyRecord record = new MyRecord();
-        record.setMemberId("M-101");
+        MyRecord record = new MyRecord(null, "M-101", null, null, null, null);
 
         when(repository.findByMemberId("M-101")).thenReturn(Optional.of(record));
 
         MyRecord result = myRecordCrudService.getRecordById("M-101");
 
         assertNotNull(result);
-        assertEquals("M-101", result.getMemberId());
+        assertEquals("M-101", result.memberId());
     }
 
     @Test
@@ -115,11 +107,9 @@ class MyRecordCrudServiceTest {
     @Test
     @DisplayName("Should filter and return top 3 previous records excluding today")
     void testGetPreviousRecords_Success() {
-        MyRecord rec1 = new MyRecord();
-        rec1.setDate("2026-08-10");
+        MyRecord rec1 = new MyRecord(null, null, null, null, null, "2026-08-10");
 
-        MyRecord rec2 = new MyRecord();
-        rec2.setDate("2026-08-09");
+        MyRecord rec2 = new MyRecord(null, null, null, null, null, "2026-08-09");
 
         when(repository.findPreviousRecords("M-101", "Chest", "Bench Press"))
                 .thenReturn(List.of(rec1, rec2));

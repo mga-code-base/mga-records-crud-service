@@ -32,8 +32,7 @@ class WorkoutCrudServiceTest {
     @Test
     @DisplayName("Should pass init when exercise configuration document exists")
     void testInit_Success() {
-        ExcerciseList doc = new ExcerciseList();
-        doc.setAbsExercises(List.of("Crunches"));
+        ExcerciseList doc = new ExcerciseList(null, null, null, null, null, null, null, null, List.of("Crunches"), null);
 
         when(mongoTemplate.findOne(any(Query.class), eq(ExcerciseList.class), eq("_exercise"))).thenReturn(doc);
 
@@ -52,8 +51,7 @@ class WorkoutCrudServiceTest {
     @Test
     @DisplayName("Should fetch chest exercises successfully")
     void testGetChestExercises_Success() {
-        ExcerciseList doc = new ExcerciseList();
-        doc.setChestExercises(List.of("Bench Press", "Incline Press"));
+        ExcerciseList doc = new ExcerciseList(null, null, List.of("Bench Press", "Incline Press"), null, null, null, null, null, null, null);
 
         when(mongoTemplate.findOne(any(Query.class), eq(ExcerciseList.class), eq("_exercise"))).thenReturn(doc);
 
@@ -65,8 +63,7 @@ class WorkoutCrudServiceTest {
     @Test
     @DisplayName("Should add chest exercise and return updated muscle wrapper")
     void testAddChestExercise_Success() {
-        ExcerciseList doc = new ExcerciseList();
-        doc.setChestExercises(List.of("Bench Press", "Chest Fly"));
+        ExcerciseList doc = new ExcerciseList(null, null, List.of("Bench Press", "Chest Fly"), null, null, null, null, null, null, null);
 
         when(mongoTemplate.updateFirst(any(Query.class), any(Update.class), eq(Document.class), eq("_exercise")))
                 .thenReturn(null);
