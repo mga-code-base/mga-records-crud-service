@@ -38,7 +38,7 @@ dependencies {
     }
     
     // Core Shared Model Library
-    implementation 'com.github.my-gym-app:mga-all-models:develop-SNAPSHOT'
+    implementation 'com.github.mga-code-base:mga-all-models-jars:release-v1.1-SNAPSHOT'
     
     // Developer Tooling Support (Lombok)
     compileOnly 'org.projectlombok:lombok'
