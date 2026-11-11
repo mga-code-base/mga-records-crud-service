@@ -5,6 +5,9 @@ import static com.mygym.app.util.RecordsCrudConstants.PREVIOUS_RECORDS_ENDPOINT;
 import static com.mygym.app.util.RecordsCrudConstants.PROGRESS_RECORDS_ENDPOINT;
 import static com.mygym.app.util.RecordsCrudConstants.RECORDS_CRUD_REST_BASE;
 
+import jakarta.validation.groups.Default;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mygym.app.models.MyRecord;
 import com.mygym.app.models.MyRecordsWrapper;
 import com.mygym.app.service.MyRecordCrudService;
+import com.mygym.app.validation.OnCreate;
 
 @RestController
 @RequestMapping(RECORDS_CRUD_REST_BASE)
@@ -29,7 +33,7 @@ public class MyRecordCrudController {
     }
 
     @PostMapping
-    public MyRecord create(@RequestBody MyRecord record) {
+    public MyRecord create(@Validated({Default.class, OnCreate.class}) @RequestBody MyRecord record) {
         return service.createRecord(record);
     }
 

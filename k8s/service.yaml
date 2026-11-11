@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mga-records-crud-service
+  labels:
+    app: mga-records-crud-service
+    app.kubernetes.io/part-of: mga
+spec:
+  type: ClusterIP
+  selector:
+    app: mga-records-crud-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

@@ -16,6 +16,7 @@ import com.mygym.app.models.MyRecord;
 import com.mygym.app.models.MyRecordsWrapper;
 import com.mygym.app.models.WorkoutSet;
 import com.mygym.app.repository.MyRecordRepository;
+import com.mygym.app.web.NotFoundException;
 
 @Service
 public class MyRecordCrudService {
@@ -43,7 +44,7 @@ public class MyRecordCrudService {
 
     public MyRecord getRecordById(String id) {
         return repository.findByMemberId(id)
-                .orElseThrow(() -> new RuntimeException("Gym record not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Gym record not found with id: " + id));
     }
 
     public void deleteRecord(String memberId) {
