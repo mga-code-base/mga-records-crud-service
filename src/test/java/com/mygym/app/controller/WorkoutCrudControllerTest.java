@@ -32,7 +32,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getChestExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).chestExercises();
+        verify(service, times(1)).getChestExercises();
     }
 
     @Test
@@ -56,7 +56,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getShoulderExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).shoulderExercises();
+        verify(service, times(1)).getShoulderExercises();
     }
 
     @Test
@@ -80,7 +80,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getBackExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).backExercises();
+        verify(service, times(1)).getBackExercises();
     }
 
     @Test
@@ -104,7 +104,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getBicepsExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).bicepsExercises();
+        verify(service, times(1)).getBicepsExercises();
     }
 
     @Test
@@ -128,7 +128,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getTricepsExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).tricepsExercises();
+        verify(service, times(1)).getTricepsExercises();
     }
 
     @Test
@@ -152,7 +152,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getLegsExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).legsExercises();
+        verify(service, times(1)).getLegsExercises();
     }
 
     @Test
@@ -176,7 +176,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getAbsExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).absExercises();
+        verify(service, times(1)).getAbsExercises();
     }
 
     @Test
@@ -200,7 +200,7 @@ class WorkoutCrudControllerTest {
         TargetMuscleWrapper result = controller.getCardioExercises();
 
         assertNotNull(result);
-        verify(service, times(1)).cardioExercises();
+        verify(service, times(1)).getCardioExercises();
     }
 
     @Test
